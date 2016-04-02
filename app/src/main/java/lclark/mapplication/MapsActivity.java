@@ -1,16 +1,21 @@
 package lclark.mapplication;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMapClickListener {
 
     private GoogleMap mMap;
 
@@ -23,16 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        mMap.setOnMapClickListener(new OnMapClickListener() {
-//
-//            @Override
-//            public void onMapClick(LatLng arg0) {
-//                // TODO Auto-generated method stub
-//                Log.d("arg0", arg0.latitude + "-" + arg0.longitude);
-//            }
-//        });
-
-
+        // Toast.makeText(getApplicationContext(), "updated", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -47,11 +43,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        LatLng point = new LatLng(44, 143);
+        mMap.addMarker(new MarkerOptions()
+                .position(point));
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+    }
+
+    @Override
+    public void onMapClick(LatLng point) {
+        // TODO: launch dialog fragment, get title and description, store in SQL
+
+        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
+        //Bitmap barryBitmap = BitmapFactory.barryHead;
+
+        mMap.addMarker(new MarkerOptions()
+                .position(point)
+                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
+                .draggable(true));
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
     }
 
 }
