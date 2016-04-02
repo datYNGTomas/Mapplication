@@ -43,7 +43,7 @@ public class LoginFragment extends Fragment {
         } else if(userName.equals("tomas")) { // TODO: username is not found in database
             Snackbar snackbar = Snackbar
                     .make(mLoginButton, "username not found", Snackbar.LENGTH_LONG)
-                    .setAction("ADD USERNAME", new View.OnClickListener() {
+                    .setAction("ADD USER", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Snackbar snackbar1 = Snackbar.make(mLoginButton, "Username Added!", Snackbar.LENGTH_SHORT);
