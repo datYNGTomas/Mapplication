@@ -2,6 +2,7 @@ package lclark.mapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +36,40 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.fragment_main_login_button)
     void searchForUser() {
-        // TODO: SQL shit
-        launchMap();
+        String userName = mEditText.getText().toString().trim();
+        if (userName.equals("")) {
+            Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } else if(userName.equals("tomas")) { // TODO: username is not found in database
+            Snackbar snackbar = Snackbar
+                    .make(mLoginButton, "username not found", Snackbar.LENGTH_LONG)
+                    .setAction("ADD USERNAME", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar snackbar1 = Snackbar.make(mLoginButton, "Username Added!", Snackbar.LENGTH_SHORT);
+                            snackbar1.show();
+                            // add new username to SQL
+                            launchMap();
+                        }
+                    });
+
+            snackbar.show();
+        } else {
+            // SQL
+            launchMap();
+        }
     }
 
     @OnClick(R.id.fragment_main_add_user_button)
     void addUser() {
-        // TODO: add user to SQL database
-        launchMap();
+        String userName = mEditText.getText().toString().trim();
+        if (userName.equals("")) {
+            Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } else {
+            // SQL
+            launchMap();
+        }
     }
 
     public void launchMap() {

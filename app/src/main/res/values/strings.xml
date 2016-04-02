@@ -6,4 +6,7 @@
     <string name="login_hint">Enter Username</string>
     <string name="main_activity_label">main</string>
     <string name="mapplication_title">Mapplication3000</string>
+    <string name="marker_description_hint">Write a description</string>
+    <string name="marker_title_hint">Give marker a title</string>
+    <string name="null_username_error">That\'s not a username! Try typing something.</string>
 </resources>

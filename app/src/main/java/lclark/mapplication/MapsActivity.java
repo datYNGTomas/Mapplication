@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,6 +19,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMapClickListener {
 
     private GoogleMap mMap;
+
+    private DialogFragment mDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapClick(LatLng point) {
         // TODO: launch dialog fragment, get title and description, store in SQL
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.show(mDialogFragment);
+        transaction.commit();
+
         Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
         //Bitmap barryBitmap = BitmapFactory.barryHead;
@@ -61,6 +68,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                 .position(point)
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
+                        //.title()
+                        //.snippet()
                 .draggable(true));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
