@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Mapplication</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="login_button">LOGIN</string>
+    <string name="add_user_button">Add User</string>
+    <string name="login_hint">Enter Username</string>
+    <string name="main_activity_label">main</string>
+    <string name="mapplication_title">Mapplication3000</string>
+</resources>
