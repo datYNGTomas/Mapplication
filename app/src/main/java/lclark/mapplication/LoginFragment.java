@@ -1,9 +1,9 @@
 package lclark.mapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,8 @@ import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import android.support.v4.app.Fragment;
 
 public class LoginFragment extends Fragment {
 
@@ -73,10 +75,9 @@ public class LoginFragment extends Fragment {
     }
 
     public void launchMap() {
-        Intent intent = new Intent(getActivity(), MapsActivity.class);
-//        String message = mEditText.getText().toString();
-//        intent.putExtra(ARG_USERNAME, message);
-        this.startActivity(intent);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_main_framelayout, new MapsFragment());
+        transaction.commit();
     }
 
 }
