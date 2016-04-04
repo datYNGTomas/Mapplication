@@ -1,9 +1,10 @@
 package lclark.mapplication;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,17 +33,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maps, parent, false);
-        mMapView.onCreate(savedInstanceState);
-        mMapView.onResume();// needed to get the map to display immediately
-
-        try {
-            MapsInitializer.initialize(getActivity().getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return view;
+        super.onCreate(savedInstanceState);
+        return inflater.inflate(R.layout.fragment_maps, parent, false);
     }
 
     /**
@@ -69,10 +60,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapClick(LatLng point) {
         // TODO: launch dialog fragment, get title and description, store in SQL
 
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.show(mDialogFragment);
-//        transaction.commit();
-        // make the dialogFragment centered at point
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.show(mDialogFragment);
+        transaction.commit();
+        //make the dialogFragment centered at point
+        // Pin pin = new Pin(point, title, description);
 
         Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);

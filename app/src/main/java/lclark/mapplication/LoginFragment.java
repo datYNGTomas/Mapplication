@@ -2,7 +2,7 @@ package lclark.mapplication;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +14,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import android.support.v4.app.Fragment;
-
 public class LoginFragment extends Fragment {
 
-    public static final String ARG_USERNAME = "LoginFragment.Username";
+    public static final String ARG_USER = "LoginFragment.Username";
 
     @Bind(R.id.login_main_username_editText)
     EditText mEditText;
@@ -38,18 +36,19 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.fragment_main_login_button)
     void searchForUser() {
-        String userName = mEditText.getText().toString().trim();
-        if (userName.equals("")) {
+        String user = mEditText.getText().toString().trim();
+        if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
-        } else if(userName.equals("tomas")) { // TODO: username is not found in database
+        } else if(user.equals("tomas")) { // TODO: username is not found in database
             Snackbar snackbar = Snackbar
-                    .make(mLoginButton, "username not found", Snackbar.LENGTH_LONG)
+                    .make(mLoginButton, R.string.user_not_found_error, Snackbar.LENGTH_LONG)
                     .setAction("ADD USER", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Snackbar snackbar1 = Snackbar.make(mLoginButton, "Username Added!", Snackbar.LENGTH_SHORT);
+                            Snackbar snackbar1 = Snackbar.make(mLoginButton, R.string.user_added, Snackbar.LENGTH_SHORT);
                             snackbar1.show();
+                            new User("tomas"); // somehow pass tomas to MapsFragment
                             // add new username to SQL
                             launchMap();
                         }
@@ -58,7 +57,8 @@ public class LoginFragment extends Fragment {
             snackbar.show();
         } else {
             // SQL
-            launchMap();
+            new User(user);
+            launchMap(); // of user
         }
     }
 
@@ -74,7 +74,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    public void launchMap() {
+    public void launchMap(User user) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new MapsFragment());
         transaction.commit();
